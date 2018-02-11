@@ -1,0 +1,14 @@
+{
+  "name": "smartlightclient",
+  "version": "1.0.0",
+  "description": "Smart light client that runs on RaspberryPi",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Suhail Taj Shaik",
+  "license": "ISC",
+  "dependencies": {
+    "socket.io-client": "^2.0.4"
+  }
+}

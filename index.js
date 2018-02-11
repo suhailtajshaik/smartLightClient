@@ -1,8 +1,10 @@
-const socket = require('socket.io-client')("http://192.168.86.114:3000");
+var socket = require('socket.io-client')("http://localhost:3000");
 
 socket.on("connect", function () {
-    console.log("Connected to server.")
-    socket.on('upDateState', function(data){
-        console.log("Light is turned : " , data.lightState ? 'ON':'OFF')
+    console.log("RASPBERRY PI : Connected to server");
+
+    socket.on("updateState", function (state) {
+        console.log("RASPBERRY PI Light state : ", state);
     });
+
 });

@@ -13,7 +13,8 @@ process.on("SIGINT", () => {
 
 socket.on("connect", function () {
     isAlive = true;
-    socket.emit("status", {"status": mapState[LED.read()]});
+    console.log(mapState[LED.read()]);
+    socket.emit("status",  mapState[LED.read()]);
 
     console.log("RASPBERRY PI : Connected to " + serverURL);
     socket.on("updateState", function (state) {

@@ -8,21 +8,14 @@ let isAlive = false;
 let LEDstatus;
 
 process.on("SIGINT", () => {
-    socket.emit("PiDisconnect");
+    isAlive = false;
+    socket.emit("HeartBeat" , { "isAlive": isAlive });
     process.exit(0);
 });
 
 socket.on("connect", function () {
     isAlive = true;
     socket.emit("HeartBeat", { "isAlive": isAlive });
-    LED.read(function (err, value) {
-        console.log(value);
-        if (err) {
-            LEDstatus = { "error": err }
-        }
-        LEDstatus = { "status": mapState[value] };
-    });
-    socket.emit("LEDstatus", LEDstatus);
 
     console.log("RASPBERRY PI : Connected to " + serverURL);
     socket.on("updateState", function (state) {
@@ -36,4 +29,16 @@ socket.on("connect", function () {
         console.log("PI Disconnected");
         socket.emit("HeartBeat", { "isAlive": isAlive });
     });
+
+    socket.on("checkLedState", ()=>{
+        socket.emit("HeartBeat", { "isAlive": isAlive });
+        LED.read(function (err, value) {
+            console.log(value);
+            if (err) {
+                LEDstatus = { "error": err }
+            }
+            LEDstatus = { "status": mapState[value] };
+        });
+        socket.emit("LEDstatus", LEDstatus);
+    })
 });

@@ -5,6 +5,7 @@ const mapState = require("./util");
 var Gpio = require('onoff').Gpio; //include onoff to interact with the GPIO
 var LED = new Gpio(4, 'out'); //use GPIO pin 4, and specify that it is output
 let isAlive = false;
+let LEDstatus;
 
 process.on("SIGINT", () => {
     socket.emit("PiDisconnect");
@@ -13,17 +14,19 @@ process.on("SIGINT", () => {
 
 socket.on("connect", function () {
     isAlive = true;
+    socket.emit("HeartBeat", { "isAlive": isAlive });
     LED.read(function (err, value) {
         console.log(value);
-        if(err){
-            socket.emit("LEDstatus", { "error" : err });    
+        if (err) {
+            LEDstatus = { "error": err }
         }
-        socket.emit("LEDstatus", { "status": mapState[value] });
+        LEDstatus = { "status": mapState[value] };
     });
-
+    socket.emit("LEDstatus", LEDstatus);
 
     console.log("RASPBERRY PI : Connected to " + serverURL);
     socket.on("updateState", function (state) {
+        LEDstatus = state;
         console.log("RASPBERRY PI Light is turned : ", state ? 'ON' : 'OFF');
         LED.writeSync(mapState[state]);
     });
@@ -31,6 +34,6 @@ socket.on("connect", function () {
     socket.on('disconnect', function () {
         isAlive = false;
         console.log("PI Disconnected");
-        socket.emit("PiDisconnect", { "isAlive": isAlive });
+        socket.emit("HeartBeat", { "isAlive": isAlive });
     });
 });

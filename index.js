@@ -20,6 +20,7 @@ socket.on("connect", function () {
     console.log("RASPBERRY PI : Connected to " + serverURL);
     socket.on("updateState", function (state) {
         LEDstatus = state;
+        socket.emit("LEDstatus", LEDstatus);
         console.log("RASPBERRY PI Light is turned : ", state ? 'ON' : 'OFF');
         LED.writeSync(mapState[state]);
     });

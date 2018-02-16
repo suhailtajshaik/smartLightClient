@@ -32,14 +32,15 @@ socket.on("connect", function () {
 
     socket.on("checkLedState", function(req) {
         console.log("checkLedState : ", req);
-        socket.emit("HeartBeat", { "isAlive": isAlive });
+        
         LED.read(function (err, value) {
-            console.log(value);
+            console.log("LED status : ", mapState[value] );
             if (err) {
                 LEDstatus = { "error": err }
             }
             LEDstatus = { "status": mapState[value] };
+            socket.emit("HeartBeat", { "isAlive": isAlive, "status": mapState[value] });
+            socket.emit("LEDstatus", LEDstatus);
         });
-        socket.emit("LEDstatus", LEDstatus);
     })
 });

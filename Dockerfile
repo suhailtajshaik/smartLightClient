@@ -25,4 +25,4 @@ USER ${USER_NAME}
 EXPOSE 3000
 
 # Command to start application when the container starts.
-CMD ["node", "npm start"]
+CMD ["node", "index.js"]

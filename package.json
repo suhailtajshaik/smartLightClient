@@ -4,7 +4,7 @@
   "description": "Smart light client that runs on Raspberry Pi",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "npm install && node index.js",
     "start:dev": "nodemon index.js"
   },
   "author": "Suhail Taj Shaik",

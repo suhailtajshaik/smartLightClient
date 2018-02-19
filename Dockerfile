@@ -10,7 +10,7 @@ COPY . /opt/project
 WORKDIR /opt/project
 
 # Use below format to setup environment variables.
-ENV SERVER_PROTOCOL=http SERVER_PORT=9000 SERVER_HOST=192.168.86.114 USER_NAME=pi USER_GROUP=pi
+ENV SERVER_PROTOCOL=http SERVER_PORT=3000 SERVER_HOST=192.168.86.114 USER_NAME=pi USER_GROUP=pi
 
 
 # Add User and Group and give permisions.
